@@ -1,6 +1,7 @@
 import type { R, TableDataInfo } from '@/api/model/resultModel';
 import type { SysLogininforQuery, SysLogininforVo } from '@/api/monitor/model/logininforModel';
 import type { AvatarVo, ProfileVo, SysUserProfileBo } from '@/api/system/model/userModel';
+import { ContentTypeEnum } from '@/constants';
 import { request } from '@/utils/request';
 
 // 查询用户个人信息
@@ -57,7 +58,7 @@ export function uploadAvatar(data: FormData) {
   return request.post<R<AvatarVo>>({
     url: '/system/user/profile/avatar',
     headers: {
-      'content-type': 'multipart/form-data',
+      'Content-Type': ContentTypeEnum.FormData,
     },
     data,
   });

@@ -5,6 +5,7 @@ import type {
   FlowDefinitionQuery,
   FlowDefinitionVo,
 } from '@/api/workflow/model/definitionModel';
+import { ContentTypeEnum } from '@/constants';
 import { request } from '@/utils/request';
 
 /**
@@ -77,6 +78,7 @@ export function importDef(data: any) {
     url: '/workflow/definition/importDef',
     data,
     headers: {
+      'Content-Type': ContentTypeEnum.FormData,
       repeatSubmit: false,
     },
   });
