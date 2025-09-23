@@ -127,7 +127,7 @@
           scroll-to-first-error="smooth"
           @submit="submitForm"
         >
-          <t-row :gutter="[0, 20]">
+          <t-row :gutter="[0, 24]">
             <t-col v-if="form.parentId !== 0" :span="12">
               <t-form-item label="上级部门" name="parentId">
                 <t-tree-select

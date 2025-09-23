@@ -138,7 +138,7 @@
           scroll-to-first-error="smooth"
           @submit="submitForm"
         >
-          <t-row :gutter="[0, 20]">
+          <t-row :gutter="[0, 24]">
             <t-col :span="6">
               <t-form-item label="企业名称" name="companyName">
                 <t-input v-model="form.companyName" placeholder="请输入企业名称" />

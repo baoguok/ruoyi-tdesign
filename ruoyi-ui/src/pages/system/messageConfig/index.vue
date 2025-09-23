@@ -162,7 +162,7 @@
           scroll-to-first-error="smooth"
           @submit="submitForm"
         >
-          <t-row :gutter="[0, 20]">
+          <t-row :gutter="[0, 24]">
             <t-col :span="6">
               <t-form-item label="标题" name="title">
                 <t-input v-model.trim="form.title" placeholder="请输入标题" clearable />

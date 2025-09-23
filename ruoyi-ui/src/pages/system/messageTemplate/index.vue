@@ -171,7 +171,7 @@
           scroll-to-first-error="smooth"
           @submit="submitForm"
         >
-          <t-row :gutter="[0, 20]">
+          <t-row :gutter="[0, 24]">
             <t-col :span="6">
               <t-form-item label="模板名称" name="templateName">
                 <t-input v-model="form.templateName" placeholder="请输入模板名称" clearable />

@@ -1,6 +1,6 @@
 <template>
   <t-loading :loading="loading" size="small">
-    <t-row :gutter="[0, 20]">
+    <t-row :gutter="[0, 24]">
       <t-col :span="6">
         <t-form-item label="表名称" name="info.tableName">
           <t-input v-model="info.tableName" placeholder="请输入仓库名称" />

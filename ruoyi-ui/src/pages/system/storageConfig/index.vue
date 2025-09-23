@@ -166,7 +166,7 @@
           scroll-to-first-error="smooth"
           @submit="submitForm"
         >
-          <t-row :gutter="[0, 20]">
+          <t-row :gutter="[0, 24]">
             <t-col :span="6">
               <t-form-item label="配置名称" name="name">
                 <t-input v-model="form.name" placeholder="请输入配置名称" clearable />

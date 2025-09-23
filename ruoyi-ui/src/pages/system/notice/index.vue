@@ -148,7 +148,7 @@
           label-width="calc(4em + 41px)"
           @submit="submitForm"
         >
-          <t-row :gutter="[0, 20]">
+          <t-row :gutter="[0, 24]">
             <t-col :span="6">
               <t-form-item label="公告标题" name="noticeTitle">
                 <t-input v-model="form.noticeTitle" placeholder="请输入公告标题" />

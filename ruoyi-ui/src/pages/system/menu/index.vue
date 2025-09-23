@@ -127,7 +127,7 @@
           :rules="rules"
           @submit="submitForm"
         >
-          <t-row :gutter="[0, 20]">
+          <t-row :gutter="[0, 24]">
             <t-col :span="12">
               <t-form-item label="上级菜单">
                 <t-tree-select

@@ -1,6 +1,6 @@
 <template>
   <t-loading :loading="loading" size="small">
-    <t-row :gutter="[0, 20]">
+    <t-row :gutter="[0, 24]">
       <t-col :span="6">
         <t-form-item name="info.tplCategory">
           <template #label>生成模板</template>

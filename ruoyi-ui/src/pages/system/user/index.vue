@@ -183,7 +183,7 @@
           scroll-to-first-error="smooth"
           @submit="onSubmit"
         >
-          <t-row :gutter="[0, 20]">
+          <t-row :gutter="[0, 24]">
             <t-col :span="6">
               <t-form-item label="用户昵称" name="nickName">
                 <t-input v-model="form.nickName" placeholder="请输入用户昵称" :maxlength="30" />
