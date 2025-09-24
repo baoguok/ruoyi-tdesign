@@ -340,7 +340,7 @@ function handleSelectSubmit(values: SelectFile[]) {
 // 上传前loading加载
 async function handleBeforeUpload(file: UploadFile) {
   let isImg: boolean;
-  if (props.fileType.length) {
+  if (props.fileType?.length) {
     let fileExtension = '';
     if (file.name.lastIndexOf('.') > -1) {
       fileExtension = getHttpFileSuffix(file.name);

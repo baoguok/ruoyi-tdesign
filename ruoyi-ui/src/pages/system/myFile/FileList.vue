@@ -24,7 +24,7 @@
         </t-image-viewer>
         <t-button :disabled="ids.length !== 1" @click="handleUpdate()">
           <template #icon> <info-circle-icon /> </template>
-          属性
+          编辑
         </t-button>
         <t-button :disabled="ids.length === 0" @click="handleMove()">
           <template #icon> <swap-icon /> </template>

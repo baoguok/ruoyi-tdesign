@@ -317,13 +317,13 @@ function handleSelectSubmit(values: SelectFile[]) {
 // 上传前loading加载
 async function handleBeforeUpload(file: UploadFile) {
   let isImg: boolean;
-  if (props.accept.length) {
+  if (props.accept?.length) {
     // eslint-disable-next-line array-callback-return
     if (!props.accept.some((value) => isMimeTypeIncluded(value, file.type))) {
       proxy.$modal.msgError(`文件格式不正确, 请上传${props.accept.join(',')}图片格式文件!`);
       return false;
     }
-  } else if (props.fileType.length) {
+  } else if (props.fileType?.length) {
     let fileExtension = '';
     if (file.name.lastIndexOf('.') > -1) {
       fileExtension = getHttpFileSuffix(file.name);

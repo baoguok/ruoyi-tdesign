@@ -320,7 +320,7 @@ function handleSelectSubmit(values: SelectFile[]) {
 // 上传前校检格式和大小
 function handleBeforeUpload(file: UploadFile) {
   // 校检文件类型
-  if (props.fileType.length) {
+  if (props.fileType?.length) {
     const fileExt = getHttpFileSuffix(file.name);
     const isTypeOk = props.fileType.indexOf(fileExt) >= 0;
     if (!isTypeOk) {

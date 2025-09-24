@@ -27,9 +27,9 @@
             </t-button>
           </template>
         </t-image-viewer>
-        <t-button v-hasPermi="['system:file:edit']" :disabled="ids.length !== 1" @click="handleUpdate()">
+        <t-button v-hasPermi="['system:file:query']" :disabled="ids.length !== 1" @click="handleDetail()">
           <template #icon> <info-circle-icon /> </template>
-          属性
+          详情
         </t-button>
         <t-button v-hasPermi="['system:file:lock']" :disabled="ids.length === 0" @click="handleUnlock()">
           <template #icon> <lock-off-icon /> </template>
@@ -68,7 +68,7 @@
             :tabindex="index"
             :title="file.originalFilename"
             @mousedown.stop
-            @dblclick.stop="handleUpdate(file)"
+            @dblclick.stop="handleDetail(file)"
             @click.exact.stop="handleClick(file)"
             @click.ctrl.exact.stop="handleCtrlClick(file)"
             @click.shift.exact.stop="handleShiftClick(file)"
@@ -197,7 +197,7 @@
         <t-descriptions-item label="文件名">{{ form.filename }}</t-descriptions-item>
         <t-descriptions-item label="原名">{{ form.originalFilename }}</t-descriptions-item>
         <t-descriptions-item label="锁定状态">{{ form.isLock }}</t-descriptions-item>
-        <t-descriptions-item label="URL">
+        <t-descriptions-item label="URL" :span="2">
           <t-space direction="vertical" size="2px">
             <div
               style="
@@ -224,76 +224,6 @@
         <t-descriptions-item label="创建时间">{{ parseTime(form.createTime) }}</t-descriptions-item>
       </my-descriptions>
     </t-dialog>
-    <t-dialog
-      v-model:visible="openView"
-      :header="title"
-      destroy-on-close
-      :close-on-overlay-click="false"
-      placement="center"
-      width="550px"
-      :confirm-btn="{
-        loading: buttonLoading,
-      }"
-    >
-      <t-loading :loading="buttonLoading" size="small">
-        <t-form
-          ref="fileRef"
-          label-align="right"
-          :data="form"
-          :rules="rules"
-          label-width="calc(4em + 31px)"
-          scroll-to-first-error="smooth"
-        >
-          <t-form-item label="fileId" name="fileId">
-            {{ form.fileId }}
-          </t-form-item>
-          <t-form-item label="文件名" name="filename">
-            {{ form.filename }}
-          </t-form-item>
-          <t-form-item label="原名" name="originalFilename">
-            <t-input v-model="form.originalFilename" placeholder="请输入原名" clearable />
-          </t-form-item>
-          <t-form-item label="锁定状态" name="isLock">
-            <t-switch v-model="form.isLock" :custom-value="[1, 0]" />
-          </t-form-item>
-          <t-form-item label="URL" name="url">
-            <t-space direction="vertical" size="2px">
-              <div
-                style="
-                  word-wrap: break-word;
-                  border: 1px solid #dedede;
-                  line-height: 1.4;
-                  padding: 8px;
-                  white-space: normal;
-                  word-break: break-all;
-                "
-              >
-                {{ getVisitUrl(form.previewUrl) }}
-              </div>
-              <t-space>
-                <my-link @click="handleDownload(form.downloadUrl, form.originalFilename)">下载</my-link>
-                <my-link @click="copyText(getVisitUrl(form.previewUrl))">复制链接URL</my-link>
-              </t-space>
-            </t-space>
-          </t-form-item>
-          <t-form-item label="分类路径" name="categoryPath">
-            {{ form.categoryPath ?? '/' }}
-          </t-form-item>
-          <t-form-item label="文件类型" name="contentType" style="word-break: break-all">
-            {{ form.contentType }}
-          </t-form-item>
-          <t-form-item label="大小" name="size">
-            {{ bytesToSize(form.size).replace(' ', '') }}
-          </t-form-item>
-          <t-form-item label="修改时间" name="updateTime">
-            {{ parseTime(form.updateTime) }}
-          </t-form-item>
-          <t-form-item label="创建时间" name="createTime">
-            {{ parseTime(form.createTime) }}
-          </t-form-item>
-        </t-form>
-      </t-loading>
-    </t-dialog>
   </div>
 </template>
 
@@ -310,7 +240,7 @@ import {
   LockOnIcon,
   SearchIcon,
 } from 'tdesign-icons-vue-next';
-import type { FormInstanceFunctions, FormRule, PageInfo } from 'tdesign-vue-next';
+import type { PageInfo } from 'tdesign-vue-next';
 import { MessagePlugin } from 'tdesign-vue-next';
 import { computed, getCurrentInstance, ref, watch } from 'vue';
 
@@ -384,7 +314,6 @@ const emit = defineEmits<{
 
 const { proxy } = getCurrentInstance();
 
-const fileRef = ref<FormInstanceFunctions>();
 const fileList = ref<SysFileVo[]>([]);
 const openUpload = ref(false);
 const openView = ref(false);
@@ -394,7 +323,6 @@ const showSearch = ref(true);
 const ids = ref<number[]>([]);
 const total = ref(0);
 const type = ref(0);
-const title = ref('');
 const shiftId = ref<number>();
 // 预览图下标
 const imagePreviewIndex = ref(0);
@@ -424,15 +352,6 @@ const rowType = computed({
     return type.value;
   },
   set: (val) => (type.value = val),
-});
-
-const rules = ref<Record<string, Array<FormRule>>>({
-  originalFilename: [
-    { required: true, message: '原名不能为空' },
-    { pattern: /^[^.][^\\/<>:?"|*]*$/, message: '文件名不能包含下列任何字符：\\/<>:?"|*' },
-  ],
-  fileCategoryId: [{ required: true, message: '分类不能为空' }],
-  isLock: [{ required: true, message: '是否锁定状态不能为空' }],
 });
 
 const uploadForm = ref<{ file?: any }>({});
@@ -551,12 +470,11 @@ function handleUpload() {
   reset();
   openUpload.value = true;
 }
-/** 修改按钮操作 */
-async function handleUpdate(row?: SysFileVo) {
+/** 详情按钮操作 */
+async function handleDetail(row?: SysFileVo) {
   buttonLoading.value = true;
   reset();
   openView.value = true;
-  title.value = '修改文件存储';
   const fileId = row?.fileId || ids.value.at(0);
   getFile(fileId).then((response) => {
     buttonLoading.value = false;

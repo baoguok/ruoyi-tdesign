@@ -312,13 +312,13 @@ function handleSelectSubmit(values: SelectFile[]) {
 // 上传前校检格式和大小
 function handleBeforeUpload(file: UploadFile) {
   // 校检文件类型
-  if (props.accept.length) {
+  if (props.accept?.length) {
     // eslint-disable-next-line array-callback-return
     if (!props.accept.some((value) => isMimeTypeIncluded(value, file.type))) {
       proxy.$modal.msgError(`文件格式不正确, 请上传${props.accept.join(',')}格式文件!`);
       return false;
     }
-  } else if (props.fileType.length) {
+  } else if (props.fileType?.length) {
     const fileExt = getHttpFileSuffix(file.name);
     const isTypeOk = props.fileType.indexOf(fileExt) >= 0;
     if (!isTypeOk) {
